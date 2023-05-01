@@ -1,0 +1,49 @@
+/* to do - fix collect_coin staying at 1 and modify offset */
+
+module coinCollision( input [9:0] coin_x_center, coin_y_center, car_x_center, car_y_center,
+                      input vga_clk,
+                      ouput collect_coin;
+
+);
+
+assign coin_size = 3;
+
+always_ff (@ posedge vga_clk)
+begin
+
+coin_x_front <= coin_x_center; 
+coin_y_front <= coin_y_center - coin_size/2;
+
+coin_x_back <= x_front;
+coin_y_back <= coin_y_center + coin_size/2;
+
+coin_x_right <= coin_x_center + coin_size/2;
+coin_y_right <= coin_y_center;
+
+coin_x_left <= ccoin_x_center - coin_size/2;
+coin_y_left <= y_right;
+
+car_x_front <= Car_X_Pos + 9 + Car_Size/2; 
+car_y_front <= Car_Y_Pos;
+
+car_x_back <= x_front;
+car_y_back <= Car_Y_Pos + 18 + Car_Size;
+
+car_x_right <= Car_X_Pos + 20 + Car_Size;
+car_y_right <= Car_Y_Pos + 10 + Car_Size/2;
+
+car_x_left <= Car_X_Pos;
+car_y_left <= y_right;
+
+
+if ((car_y_front > coin_y_front-3) && (car_y_back < coin_y_back+3) ||
+    (car_x_left > coin_x_left-3) && (car_y_right < coin_y_right+3)  )  
+    begin
+        collect_coin <= 1;    //how to get this to stay at 1
+        //change 3 to be whichever offset is appropriate
+    end
+
+end
+
+endmodule
+

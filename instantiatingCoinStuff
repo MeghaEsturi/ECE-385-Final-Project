@@ -1,0 +1,22 @@
+// INSERT INTO TOP LEVEL
+
+logic coin_1_collision;
+
+
+
+coinCollision coin_collision1_PC(.coin_x_center(coinX),
+                             .coin_y_center(coinY),
+                             .car_x_center(),
+                             .car_y_center(),
+                             .vga_clk(),
+                             .collided(coin_1_collision_PC));
+
+coin coin1(.x_center(),
+           .y_center(),
+           .vga_clk(),
+           .coinX(),
+           .coinY(),
+           .coinS());
+
+
+// PUT coin_1_collision INTO THE BACKGROUND_EXAMPLE AND IF IT HAS BEEN COLLECTED, DO NOT DRAW IT
