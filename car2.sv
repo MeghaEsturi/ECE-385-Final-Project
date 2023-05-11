@@ -13,14 +13,14 @@
 //    UIUC ECE Department                                                --
 //-------------------------------------------------------------------------
 
-//GREEN CAR
+//PURPLE CAR
 
-module  car ( input Reset, frame_clk, vga_clk,
+module  car2 ( input Reset, frame_clk, vga_clk,
 					input [7:0] keycode, keycode2,
 					input [10:0] X_CENTER, Y_CENTER,
 					input RED_EN, RED_EN_W6, RED_EN_FOURTH, RED_EN_FIFTH,
                output [10:0]  BallX, BallY, BallS,
-					output greenCarWon, hitLight_FourthJohn);
+					output purpleCarWon);
     
     logic [10:0] Ball_X_Pos, Ball_X_Motion, Ball_Y_Pos, Ball_Y_Motion, Ball_Size, Ball_X_Center, Ball_Y_Center, side_x;
 	 logic in_bounds_horizontal, in_bounds_vertical;
@@ -37,9 +37,8 @@ module  car ( input Reset, frame_clk, vga_clk,
 
     assign Ball_Size = 8;  // assigns the value 4 as a 10-digit binary number, ie "0000000100"
 	 
-	 logic hitLight_FourthClark, hitLight_FifthChalmers, hitLight_FifthStoughton, hitLight_wrightSpringfield, hitLight_SixthWhite, hitLight_WrightGreen, hitLight_SixthHealey;
+	 logic hitLight_FourthClark, hitLight_FourthJohn, hitLight_FifthChalmers, hitLight_FifthStoughton, hitLight_wrightSpringfield, hitLight_SixthWhite, hitLight_WrightGreen, hitLight_SixthHealey;
 	 
-	 //hitLight_FourthJohn
    
     always_ff @ (posedge Reset or posedge frame_clk ) 
     begin: Move_Ball
@@ -77,7 +76,7 @@ module  car ( input Reset, frame_clk, vga_clk,
 					  Ball_Y_Motion <= Ball_Y_Motion;  // Ball is somewhere in the middle, don't bounce, just keep moving
 		
 					  
-				if((keycode == 8'h50 || keycode2 == 8'h50))
+				if(keycode == 8'h04 || keycode2 == 8'h04)
 				begin
 					if (in_bounds_horizontal)
 						begin
@@ -89,7 +88,7 @@ module  car ( input Reset, frame_clk, vga_clk,
 					
 					
 					
-				else if((keycode == 8'h4F || keycode2 == 8'h4F))
+				else if((keycode == 8'h07 || keycode2 == 8'h07))
 				begin
 					if (in_bounds_horizontal)
 					
@@ -100,7 +99,7 @@ module  car ( input Reset, frame_clk, vga_clk,
 					
 				end
 					
-				else if((keycode == 8'h51 || keycode2 == 8'h51))
+				else if((keycode == 8'h16 || keycode2 == 8'h16))
 				begin
 					if (in_bounds_vertical)
 					
@@ -111,7 +110,7 @@ module  car ( input Reset, frame_clk, vga_clk,
 					
 				end
 					
-				else if((keycode == 8'h52 || keycode2 == 8'h52))
+				else if((keycode == 8'h1A || keycode2 == 8'h1A))
 				begin
 					if (in_bounds_vertical)
 					
@@ -131,7 +130,7 @@ module  car ( input Reset, frame_clk, vga_clk,
 					
 				 end
 				 
-				if (hitLight_FourthClark|| hitLight_FourthJohn || hitLight_FifthChalmers || hitLight_FifthStoughton || hitLight_wrightSpringfield || hitLight_SixthWhite || hitLight_WrightGreen || hitLight_SixthHealey)
+				if (hitLight_FourthClark || hitLight_FourthJohn || hitLight_FifthChalmers || hitLight_FifthStoughton || hitLight_wrightSpringfield || hitLight_SixthWhite || hitLight_WrightGreen || hitLight_SixthHealey)
 				begin
 					Ball_Y_Pos <= 430;
 					Ball_X_Pos <= 601;
@@ -162,7 +161,6 @@ module  car ( input Reset, frame_clk, vga_clk,
 							  .in_bounds_horizontal(in_bounds_horizontal) );
 			
 
-
 lightCollision WrightSpringField (.light_size(7),
 											 .light_center_x(265),
 											 .light_center_y(180),
@@ -176,21 +174,6 @@ lightCollision WrightSpringField (.light_size(7),
 											 .right_bound(268),	
 											 .vga_clk(vga_clk),
 											 .light_collision(hitLight_wrightSpringfield));
-											 
-
-lightCollision WrightGreen (.light_size(7),
-							 .light_center_x(325),
-							 .light_center_y(180),
-							 .RED_EN(RED_EN),
-							 .Car_X_Pos(Ball_X_Pos),
-							 .Car_Y_Pos(Ball_Y_Pos),
-							 .Car_Size(BallS),
-							 .top_bound(176),	
-							 .bottom_bound(184),
-							 .left_bound(321),	
-							 .right_bound(329),							
-							 .vga_clk(vga_clk),
-							 .light_collision(hitLight_WrightGreen));
 									
 lightCollision SixthWhite (.light_size(7),
 							 .light_center_x(135),
@@ -206,6 +189,19 @@ lightCollision SixthWhite (.light_size(7),
 							 .vga_clk(vga_clk),
 							 .light_collision(hitLight_SixthWhite));
 							
+lightCollision WrightGreen (.light_size(7),
+							 .light_center_x(325),
+							 .light_center_y(180),
+							 .RED_EN(RED_EN_W6),
+							 .Car_X_Pos(Ball_X_Pos),
+							 .Car_Y_Pos(Ball_Y_Pos),
+							 .Car_Size(BallS),
+							 .top_bound(176),	
+							 .bottom_bound(184),
+							 .left_bound(321),	
+							 .right_bound(329),							
+							 .vga_clk(vga_clk),
+							 .light_collision(hitLight_WrightGreen));
 							
 lightCollision SixthHealey (.light_size(7),
 							 .light_center_x(391),
@@ -228,9 +224,9 @@ lightCollision FifthStoughton (.light_size(7),
 							 .Car_X_Pos(Ball_X_Pos),
 							 .Car_Y_Pos(Ball_Y_Pos),
 							 .Car_Size(BallS),
-							 .top_bound(306),	
-							 .bottom_bound(317),
-							 .left_bound(192),	
+							 .top_bound(308),	
+							 .bottom_bound(315),
+							 .left_bound(194),	
 							 .right_bound(202),							
 							 .vga_clk(vga_clk),
 							 .light_collision(hitLight_FifthStoughton));
@@ -244,11 +240,11 @@ lightCollision FifthChalmers (.light_size(7),
 							 .Car_Size(BallS),
 							 .top_bound(308),	
 							 .bottom_bound(315),
-							 .left_bound(573),	
+							 .left_bound(577),	
 							 .right_bound(585),							
 							 .vga_clk(vga_clk),
 							 .light_collision(hitLight_FifthChalmers));
-							
+			
 lightCollision FifthJohn (.light_size(7),
 							 .light_center_x(460),
 							 .light_center_y(371),
@@ -278,11 +274,11 @@ lightCollision FifthClark (.light_size(7),
 							 .vga_clk(vga_clk),
 							 .light_collision(hitLight_FourthClark));
 							
-carWins greenCar(.Car_X_Pos(Ball_X_Pos), 
+carWins purpleCar(.Car_X_Pos(Ball_X_Pos), 
 						.Car_Y_Pos(Ball_Y_Pos), 
 						.Car_Size(Ball_Size), 
 						.vga_clk(vga_clk), 
-						.carWon(greenCarWon));
+						.carWon(purpleCarWon));
 						
 
 

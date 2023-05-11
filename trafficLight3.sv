@@ -1,4 +1,4 @@
-module control (input  logic Clk, Reset, Execute,
+module control3 (input  logic Clk, Reset, Execute,
                 output logic GREEN_EN, RED_EN, YELLOW_EN);
 
     enum logic [4:0] {RESET, DELAY_R, DELAY_Y, DELAY_G, RED, YELLOW, GREEN, RETURN}   curr_state, next_state;
@@ -35,21 +35,21 @@ module control (input  logic Clk, Reset, Execute,
 							delay_counter = 0;
 							end
 
-            DELAY_G: if (delay_counter ==  200000000)
+            DELAY_G: if (delay_counter ==  180000000)
                       next_state <= YELLOW;
                       else
                       delay_counter <= delay_counter + 1;
 
             YELLOW:   next_state <= DELAY_Y;
 
-            DELAY_Y: if (delay_counter == 260000000)
+            DELAY_Y: if (delay_counter == 240000000)
                       next_state <= RED;
                       else
                       delay_counter <= delay_counter + 1;
 
             RED:      next_state <= DELAY_R;
 
-            DELAY_R: if (delay_counter == 330000000)
+            DELAY_R: if (delay_counter == 310000000)
                       next_state <= RETURN;
                       else
                       delay_counter <= delay_counter + 1;	
